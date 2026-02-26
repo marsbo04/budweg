@@ -584,3 +584,6 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+
+### User-defined
+appsettings.json
