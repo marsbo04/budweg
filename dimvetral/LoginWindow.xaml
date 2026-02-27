@@ -1,0 +1,52 @@
+﻿<Window x:Class="dimvetral.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:dimvetral"
+        mc:Ignorable="d"
+        Title="LoginWindow" Height="450" Width="800">
+    <Grid Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <!-- Main Container -->
+        <Border BorderBrush="Black" BorderThickness="3" Margin="20" Padding="40">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                <!-- Title -->
+                <TextBlock Text="D.I.M.Ve.Tra.L." 
+                           FontSize="36" 
+                           FontWeight="Bold" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,0,0,30"
+                           Foreground="Black"/>
+
+                <!-- Person/Contact Icon -->
+                <Ellipse Width="100" Height="100" Stroke="Black" StrokeThickness="3"/>
+                <Canvas Width="100" Height="100" Margin="0,-100,0,0">
+                    <!-- Head -->
+                    <Ellipse Width="30" Height="30" Stroke="Black" StrokeThickness="3" Canvas.Left="35" Canvas.Top="21" RenderTransformOrigin="0.522,0.517" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <!-- Shoulders -->
+                    <Path Data="M 20,80 A 30,30 0 0 1 80,80" Stroke="Black" StrokeThickness="3" Canvas.Left="0" Canvas.Top="0"/>
+                </Canvas>
+
+                <!-- Login Label -->
+                <TextBlock Text="login" 
+                           FontSize="18" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,30,0,10"
+                           Foreground="Black"/>
+
+                <!-- Input Field -->
+                <TextBox Margin="0,0,0,0" 
+                     Width="200" 
+                     Height="35" 
+                     Text="Indtast Bruger-ID..." 
+                     VerticalContentAlignment="Center" 
+                     HorizontalContentAlignment="Center" 
+                     BorderBrush="Black" 
+                     BorderThickness="2"
+                     Foreground="Gray"/>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
