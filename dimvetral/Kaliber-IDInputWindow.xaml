@@ -35,7 +35,7 @@
                            HorizontalAlignment="Center" 
                            Margin="0,30,0,10"
                            Foreground="Black"/>
-                <TextBox 
+                <TextBox x:Name="CaliberIdTextBox"
                          Width="220" 
                          Height="60" 
                          Text="Indtast Kaliber-ID..." 
@@ -44,7 +44,11 @@
                          BorderBrush="Black" 
                          BorderThickness="3"
                          FontWeight="Bold"
-                         Foreground="Gray" TextChanged="TextBox_TextChanged"/>
+                         Foreground="Gray" 
+                         TextChanged="TextBox_TextChanged"
+                         GotFocus="TextBox_GotFocus"
+                         LostFocus="TextBox_LostFocus"
+                         KeyDown="TextBox_KeyDown"/>
                 <!-- Input Field with Placeholder -->
 
             </StackPanel>
