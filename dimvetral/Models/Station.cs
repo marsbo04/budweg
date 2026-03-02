@@ -6,14 +6,16 @@ namespace dimvetral.Models
 {
     internal class Station
     {
-        private int StationID;
-        private string StationName;
-        private string Status;
+        public string StationID { get; internal set; }
+        public string StationName{ get; internal set; }
+       public string Status;
 
-        Station(int Id, string name, string status) {
+        Station(string Id, string name, string status) {
             this.StationID = StationID;
             this.StationName = StationName;
             this.Status = Status;
         }
+
+
     }
 }
