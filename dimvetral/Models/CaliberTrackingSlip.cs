@@ -6,10 +6,11 @@ namespace dimvetral.Models
 {
     internal class CaliberTrackingSlip
     {
-        private string CaliberTrackingSlipID;
+        public string CaliberTrackingSlipID { get; private set; }
         private string CaliberTrackingSlipName;
         private string History;
-        private string Location;
+        public List<string> HistoryList; 
+        public string Location { get; private set; }
         private string Status;
         private string Warehouse;
         private DateTime StartDate;
@@ -23,6 +24,7 @@ namespace dimvetral.Models
             this.Status = Status;
             this.Warehouse = Warehouse;
             this.StartDate = StartDate;
+            UpdateHistory(History);
 
         }
         public CaliberTrackingSlip(string CaliberTrackingSlipID, string Location)
@@ -31,5 +33,11 @@ namespace dimvetral.Models
             this.Location = Location;
 
         }
+        public void UpdateHistory(string newEntry)
+        {
+            HistoryList.Add(newEntry);
+            History += $"{newEntry}{Environment.NewLine}";
+        }
+
     }
 }
