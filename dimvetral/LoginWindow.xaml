@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dimvetral"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="800">
+        Title="Login" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
     <Grid Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <!-- Main Container -->
         <Border BorderBrush="Black" BorderThickness="3" Margin="20" Padding="40">
@@ -35,16 +37,86 @@
                            Margin="0,30,0,10"
                            Foreground="Black"/>
 
-                <!-- Input Field -->
-                <TextBox Margin="0,0,0,0" 
-                     Width="200" 
-                     Height="35" 
-                     Text="Indtast Bruger-ID..." 
-                     VerticalContentAlignment="Center" 
-                     HorizontalContentAlignment="Center" 
-                     BorderBrush="Black" 
-                     BorderThickness="2"
-                     Foreground="Gray"/>
+                <!-- User ID Input Field -->
+                <TextBox x:Name="UserIdTextBox"
+                         Margin="0,0,0,15" 
+                         Width="200" 
+                         Height="35" 
+                         VerticalContentAlignment="Center" 
+                         HorizontalContentAlignment="Center" 
+                         BorderBrush="Black" 
+                         BorderThickness="2"
+                         Foreground="Black"
+                         GotFocus="UserIdTextBox_GotFocus"
+                         LostFocus="UserIdTextBox_LostFocus"
+                         Text="Indtast Bruger-ID..."/>
+
+                <!-- Password Input Field -->
+                <PasswordBox x:Name="PasswordBox"
+                             Margin="0,0,0,20" 
+                             Width="200" 
+                             Height="35" 
+                             VerticalContentAlignment="Center" 
+                             HorizontalContentAlignment="Center" 
+                             BorderBrush="Black" 
+                             BorderThickness="2"
+                             PasswordChar="●"
+                             GotFocus="PasswordBox_GotFocus"
+                             KeyDown="PasswordBox_KeyDown"/>
+
+                <!-- Password Placeholder (shown when empty) -->
+                <TextBlock x:Name="PasswordPlaceholder"
+                           Text="Indtast Kodeord..."
+                           IsHitTestVisible="False"
+                           Foreground="Gray"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Margin="0,-47,0,20"/>
+
+                <!-- Error Message -->
+                <TextBlock x:Name="ErrorMessageTextBlock"
+                           Foreground="Red"
+                           FontSize="12"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,10"
+                           TextWrapping="Wrap"
+                           Width="250"
+                           TextAlignment="Center"
+                           Visibility="Collapsed"/>
+
+                <!-- Login Button -->
+                <Button x:Name="LoginButton"
+                        Content="Log ind" 
+                        Width="200" 
+                        Height="40"
+                        FontSize="16"
+                        Background="#2196F3"
+                        Foreground="White"
+                        BorderBrush="Black"
+                        BorderThickness="2"
+                        Cursor="Hand"
+                        Click="LoginButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#1976D2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
 
             </StackPanel>
         </Border>
