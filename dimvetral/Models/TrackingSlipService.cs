@@ -13,5 +13,9 @@ namespace dimvetral.Models
             CaliberTrackingSlip newCal = new CaliberTrackingSlip(trackingSlipID, SationID);
             return newCal;
         }
+        private string generateTrackingSlipID()
+        {
+            return Guid.NewGuid().ToString();
+        }
     }
 }
