@@ -4,12 +4,12 @@ using System.Text;
 
 namespace dimvetral.Models
 {
-    internal class CaliberTrackingSlip
+    public class CaliberTrackingSlip
     {
         public string CaliberTrackingSlipID { get; private set; }
         private string CaliberTrackingSlipName;
         private string History;
-        public List<string> HistoryList; 
+        public List<string> HistoryList { get; private set; }
         public string Location { get; private set; }
         private string Status;
         private string Warehouse;
@@ -24,20 +24,24 @@ namespace dimvetral.Models
             this.Status = Status;
             this.Warehouse = Warehouse;
             this.StartDate = StartDate;
+            this.HistoryList = new List<string>();
             UpdateHistory(History);
-
         }
+        
         public CaliberTrackingSlip(string CaliberTrackingSlipID, string Location)
         {
             this.CaliberTrackingSlipID = CaliberTrackingSlipID;
             this.Location = Location;
-
+            this.HistoryList = new List<string>(); 
         }
+        
         public void UpdateHistory(string newEntry)
         {
-            HistoryList.Add(newEntry);
-            History += $"{newEntry}{Environment.NewLine}";
+            if (!string.IsNullOrEmpty(newEntry))
+            {
+                HistoryList.Add(newEntry);
+                History += $"{newEntry}{Environment.NewLine}";
+            }
         }
-
     }
 }

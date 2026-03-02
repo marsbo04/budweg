@@ -41,7 +41,10 @@ namespace dimvetral
                     cool_string += $"{reader["Id"]}  | {reader["Name"]} | {reader["Age"]}\n";
                 }
                 MessageBox.Show(cool_string);
+
             }
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
 
             // 
 

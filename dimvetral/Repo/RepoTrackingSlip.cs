@@ -7,24 +7,35 @@ namespace dimvetral.Repo
 {
     internal class RepoTrackingSlip
     {
-        public List<string> RepoHistoryList;
-        public List<Models.CaliberTrackingSlip> trackingSlips;
-        public void add(Models.CaliberTrackingSlip trackingSlip)
+        public List<string> RepoHistoryList { get; set; }
+        public List<CaliberTrackingSlip> trackingSlips { get; set; }
+
+        public RepoTrackingSlip()
+        {
+            RepoHistoryList = new List<string>();
+            trackingSlips = new List<CaliberTrackingSlip>();
+        }
+
+        public void add(CaliberTrackingSlip trackingSlip)
         {
             trackingSlips.Add(trackingSlip);
         }
-        public List<Models.CaliberTrackingSlip> getAll()
+        
+        public List<CaliberTrackingSlip> getAll()
         {
             return trackingSlips;
         }
-        public Models.CaliberTrackingSlip getById(string id)
+        
+        public CaliberTrackingSlip? getById(string id)
         {
             return trackingSlips.Find(t => t.CaliberTrackingSlipID == id);
         }
-        public List<Models.CaliberTrackingSlip> getByLocation(string location)
+        
+        public List<CaliberTrackingSlip> getByLocation(string location)
         {
             return trackingSlips.FindAll(t => t.Location == location);
         }
+        
         public List<string> GetHistory(string id)
         {
             var trackingSlip = getById(id);

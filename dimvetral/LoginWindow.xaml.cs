@@ -57,38 +57,38 @@ namespace dimvetral
 
             if (isValid)
             {
-                // Login successful - open main window
-                MainWindow mainWindow = new MainWindow();
+              // Login successful -> open main window with employee ID
+                MainWindow mainWindow = new MainWindow(userId);
                 mainWindow.Show();
                 this.Close();
             }
             else
             {
-                // Show error message
+             //Login not successful -> Show error message
                 ErrorMessageTextBlock.Text = _viewModel.ErrorMessage;
                 ErrorMessageTextBlock.Visibility = Visibility.Visible;
                 
-                // Clear password
+              // Clear password
                 PasswordBox.Clear();
             }
         }
 
         private void UserIdTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            // Clear placeholder text
+         // Clear placeholder text
             if (UserIdTextBox.Text == "Indtast Bruger-ID...")
             {
                 UserIdTextBox.Text = string.Empty;
                 UserIdTextBox.Foreground = new SolidColorBrush(Colors.Black);
             }
             
-            // Hide error message when user starts typing
+         // Hide error message when user starts typing
             ErrorMessageTextBlock.Visibility = Visibility.Collapsed;
         }
 
         private void UserIdTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Restore placeholder text
+         // Restore placeholder text
             if (string.IsNullOrWhiteSpace(UserIdTextBox.Text))
             {
                 UserIdTextBox.Text = "Indtast Bruger-ID...";
@@ -100,18 +100,18 @@ namespace dimvetral
         {
             UpdatePasswordPlaceholder();
             
-            // Hide error message when user starts typing
+        // Hide error message when user starts typing
             ErrorMessageTextBlock.Visibility = Visibility.Collapsed;
         }
 
         private void UpdatePasswordPlaceholder()
         {
-            // Hide placeholder when password box has content
+        // Hide placeholder when password box has content
             PasswordPlaceholder.Visibility = string.IsNullOrEmpty(PasswordBox.Password) 
                 ? Visibility.Visible 
                 : Visibility.Collapsed;
             
-            // Update placeholder visibility when password changes
+         // Update placeholder visibility when password changes
             PasswordBox.PasswordChanged += (s, e) =>
             {
                 PasswordPlaceholder.Visibility = string.IsNullOrEmpty(PasswordBox.Password)

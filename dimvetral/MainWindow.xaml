@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dimvetral"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Kaliber Følgeseddel System" Height="450" Width="800">
     <Grid Background="#F5F5F5">
         <!-- Hovedramme der tilpasser sig skærmen -->
         <Border BorderBrush="Black" BorderThickness="3" Margin="15" Background="White">
@@ -19,13 +19,43 @@
                 <!-- VENSTRE SEKTION: Historik (Responsiv container) -->
                 <Border BorderBrush="Black" BorderThickness="0,0,2,0">
                     <Grid Margin="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        
                         <TextBlock Text="Kaliber følgeseddel / Historik" 
-                               FontWeight="Bold" 
-                               FontSize="20" 
-                               HorizontalAlignment="Left" 
-                               VerticalAlignment="Top" />
+                                   FontWeight="Bold" 
+                                   FontSize="20" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Top"
+                                   Margin="0,0,0,15" />
 
-                        <!-- Her kan din DataGrid eller liste over historik placeres -->
+                        <!-- DataGrid bundet til TrackingHistory -->
+                        <DataGrid Grid.Row="1"
+                                  ItemsSource="{Binding TrackingHistory}"
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="True"
+                                  SelectionMode="Single"
+                                  GridLinesVisibility="Horizontal"
+                                  HeadersVisibility="Column"
+                                  BorderBrush="Black"
+                                  BorderThickness="1"
+                                  RowBackground="White"
+                                  AlternatingRowBackground="#F9F9F9"
+                                  CanUserResizeRows="False"
+                                  CanUserSortColumns="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Kaliber ID" 
+                                                    Binding="{Binding CaliberTrackingSlipID}" 
+                                                    Width="Auto" 
+                                                    MinWidth="100" />
+                                <DataGridTextColumn Header="Lokation" 
+                                                    Binding="{Binding Location}" 
+                                                    Width="*" 
+                                                    MinWidth="120" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </Grid>
                 </Border>
 
@@ -42,13 +72,44 @@
 
                     <!-- Top: ID Information -->
                     <StackPanel Grid.Row="0">
+                        <!-- Medarbejder ID -->
                         <Grid Margin="0,0,0,10">
-                            <TextBlock Text="Medarbejder ( ID )" VerticalAlignment="Center" FontWeight="SemiBold" />
-                            <Ellipse Width="35" Height="35" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Right" />
+                            <TextBlock Text="Medarbejder ( ID )" 
+                                       VerticalAlignment="Center" 
+                                       FontWeight="SemiBold" />
+                            <Border Width="35" Height="35" 
+                                    BorderBrush="Black" 
+                                    BorderThickness="2" 
+                                    CornerRadius="17.5"
+                                    HorizontalAlignment="Right"
+                                    Background="White">
+                                <TextBlock Text="{Binding EmployeeId}" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"
+                                           FontSize="10"
+                                           FontWeight="Bold"
+                                           TextTrimming="CharacterEllipsis" />
+                            </Border>
                         </Grid>
+                        
+                        <!-- Bremseskaliber ID -->
                         <Grid>
-                            <TextBlock Text="Bremseskaliber ( ID )" VerticalAlignment="Center" FontWeight="SemiBold" />
-                            <Ellipse Width="35" Height="35" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Right" />
+                            <TextBlock Text="Bremseskaliber ( ID )" 
+                                       VerticalAlignment="Center" 
+                                       FontWeight="SemiBold" />
+                            <Border Width="35" Height="35" 
+                                    BorderBrush="Black" 
+                                    BorderThickness="2" 
+                                    CornerRadius="17.5"
+                                    HorizontalAlignment="Right"
+                                    Background="White">
+                                <TextBlock Text="{Binding CaliberId}" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"
+                                           FontSize="10"
+                                           FontWeight="Bold"
+                                           TextTrimming="CharacterEllipsis" />
+                            </Border>
                         </Grid>
                     </StackPanel>
 
@@ -63,8 +124,9 @@
 
                     <!-- Bund: Aktioner -->
                     <StackPanel Grid.Row="2" VerticalAlignment="Bottom">
-                        <!-- Knappen til at tilføje ny kaliber -->
+                        <!-- Knappen til at tilføje ny kaliber - BUNDET TIL COMMAND -->
                         <Button Content="Tilføj ny kaliber" 
+                                Command="{Binding AddNewCaliberCommand}"
                                 Padding="10"
                                 FontSize="16"
                                 FontWeight="Bold"
@@ -73,17 +135,52 @@
                                 BorderThickness="2"
                                 HorizontalAlignment="Stretch"
                                 Cursor="Hand"
-                                Margin="0,0,0,15" />
+                                Margin="0,0,0,15">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="5">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#E0E0E0" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
-                        <!-- Log ud knap -->
+                        <!-- Log ud knap - BUNDET TIL COMMAND -->
                         <Button Content="Log ud" 
+                                Command="{Binding LogoutCommand}"
                                 Foreground="Red"
                                 FontWeight="Bold"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 HorizontalAlignment="Center"
                                 Padding="10"
-                                Cursor="Hand" />
+                                Cursor="Hand">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="DarkRed" />
+                                            <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Grid>

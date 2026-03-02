@@ -8,17 +8,27 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using dimvetral.ViewModels;
 
 namespace dimvetral
 {
-    /// <summary>
+
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
+        private readonly MainWindowViewModel _viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
+            _viewModel = new MainWindowViewModel();
+            DataContext = _viewModel;
+        }
+
+        public MainWindow(string employeeId) : this()
+        {
+            _viewModel.EmployeeId = employeeId;
         }
     }
 }
