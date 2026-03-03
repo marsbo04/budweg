@@ -1,0 +1,53 @@
+@startuml
+
+hide methods
+hide circle
+class KaliberFølgeseddel
+{
+    ID
+    StartDato
+    Historik
+    Lokation
+    Status /' Is it underway or is it at a location? '/
+}
+
+/' There are a lot of incoming break calibers which results in having to type
+    many "følgesedler" '/
+  
+' class Ordrenummer
+' {
+'     ID 
+'     Leverandør
+'     ModtagelsesDato
+'     Antal
+'     Status
+' }
+
+class Station
+{
+    StationsID
+    StationsNavn
+    StartDato
+    SlutDato 
+    Status
+    Bemærkning
+}
+
+class Medarbejder 
+{
+    ID
+    Navn 
+}
+
+class Bygning
+{
+    Navn
+    Sektion
+}
+
+Medarbejder "1..* " -- "1" Station
+KaliberFølgeseddel "0..* " -- "1..*  " Station
+/' One-or-more to 1 because buildings with no stations do not make sense.
+   The presence of empty buildings would yield in useless records in the database. '/
+Station "1..* " -- "1 " Bygning
+@enduml

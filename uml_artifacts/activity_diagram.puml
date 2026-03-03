@@ -1,0 +1,29 @@
+@startuml ActivityDiagram
+
+start
+
+:Sortering;
+:Renovering \n"timer";
+
+if (Beskadiget?) then (ja)
+  :Opdatér status;
+  stop
+else (nej)
+endif
+
+:Indgangskontrol;
+:Montage \n"timer";
+
+if (Beskadiget?) then (ja)
+  :Opdatér status;
+  stop
+else (nej)
+endif
+
+:Slutkontrol;
+:Pakkeri;
+:Forsendelse;
+
+stop
+
+@enduml

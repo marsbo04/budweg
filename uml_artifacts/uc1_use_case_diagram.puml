@@ -1,0 +1,33 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #F9F9F9
+  BorderColor #333333
+}
+
+actor "Medarbejder" as Employee
+actor "Kvalitet" as Quality
+actor "Ledelse" as Management
+
+rectangle "D.I.M.Ve.Tra.L" {
+    usecase "UC1\nOpret digital følgeseddel" as UC1
+    usecase "Validér input" as UC2
+    usecase "Generér unikt sporings-ID" as UC3
+    usecase "Gem følgeseddel\n+ initial status/lokation" as UC4
+    usecase "Opret historik-event" as UC5
+    usecase "Udskriv QR/\nbarcode-label" as UC6    
+    usecase "Håndtér duplikat-ID\n(regenerér ID)" as UC7
+}
+
+Employee --> UC1
+UC1 .> UC2 : <<include>>
+UC1 .> UC3 : <<include>>
+UC1 .> UC4 : <<include>>
+UC1 .> UC5 : <<include>>
+UC1 .> UC6 : <<include>>
+UC7 .> UC3 : <<extend>>
+Quality --> UC5
+Management --> UC4
+
+@enduml

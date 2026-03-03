@@ -1,0 +1,45 @@
+@startuml UC1SD
+title  Sekvensdiagram - UC1: Opret Følgeseddel
+    actor "Actor" as User
+    participant "CreateTrackingSlipView" as View
+    participant "CreateTrackingSlip" as VM
+    participant "TrackingSlipService" as Service
+    participant "CaliberTrackingSlip" as Model
+    participant "LabelPrinter" as Printer
+
+    User->View: Select Station & Enter Info
+    View->VM: Data Binding (Updates properties)
+    
+    User->View: Click "Create Tracking Slip"
+    View->VM: createTrackingSlipCommand()
+    
+        activate VM
+        Note over VM: Validate Input
+        VM->VM: validateInput()
+    
+    
+    alt is valid
+        VM->Service: createTrackingSlip(stationID, info)
+        
+        activate Service
+        Service->Service: generateUniqueID()
+        Note right of Service:  Unique ID Generation
+        
+        create participant Model
+        Service->Model: new CaliberTrackingSlip(id, info)
+        Service->Model: associateWithStation(stationID)
+        
+        Service-->VM: return CaliberTrackingSlip
+        deactivate Service
+        
+        VM->Printer: print(trackingSlip)
+        activate Printer
+        Printer-->User: Print QR/Barcode Label
+        deactivate Printer
+        
+        Note over VM: Process Finished
+    else is invalid
+        VM-->View: Update errorMessage
+        View-->User: Display Error Highlight
+    end
+@enduml

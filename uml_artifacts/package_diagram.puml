@@ -1,0 +1,29 @@
+@startuml
+hide circle
+hide members
+hide methods
+
+package "View" {
+    class CreateTrackingSlipView
+}
+
+package "ViewModel" {
+    class CreateTrackingSlip
+    class LabelPrinter
+}
+
+package "Model" {
+    class TrackingSlipService
+    class CaliberTrackingSlip
+    class Employee
+    class Station
+}
+
+' --- Relations ---
+CreateTrackingSlipView ..> CreateTrackingSlip
+CreateTrackingSlip ..> LabelPrinter :  «uses» .
+CreateTrackingSlip ..> TrackingSlipService :  «uses»  .
+TrackingSlipService ..> CaliberTrackingSlip : «instantiates» .
+TrackingSlipService ..> Station : «associates»   .
+
+@enduml

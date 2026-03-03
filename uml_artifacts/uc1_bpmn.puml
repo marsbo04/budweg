@@ -1,0 +1,22 @@
+@startuml bmpn
+title Basic BPMN-Style Process
+
+|Customer|
+start
+:Submit Request;
+
+|Service Team|
+:Review Request;
+
+if (Approved?) then (Yes)
+  :Process Request;
+  :Complete Work;
+else (No)
+  :Reject Request;
+endif
+
+|Customer|
+:Receive Notification;
+stop
+
+@enduml

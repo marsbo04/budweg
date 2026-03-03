@@ -1,0 +1,79 @@
+
+@startuml UC1DCD
+title Design Class Diagram - UC1: Opret Følgeseddel
+hide circle
+package "View" {
+    class CreateTrackingSlipView {
+        -viewModel: CreateTrackingSlip
+    }
+}
+
+package "ViewModel" {
+    class CreateTrackingSlip {
+        +selectedStationID: int
+        +inputStartInfo: String
+        -errorMessage: String
+        +createTrackingSlipCommand()
+        -validateInput(): boolean
+    }
+    
+    class LabelPrinter {
+        +print(trackingSlip: CaliberTrackingSlip)
+    }
+}
+
+package "Model" {
+    class TrackingSlipService {
+        +createTrackingSlip(stationID: int, info: String): CaliberTrackingSlip
+        -generateUniqueID(): String
+    }
+
+    class CaliberTrackingSlip {
+        +ID: String
+        +StartDate: DateTime
+        +History: String
+        +Warehouse: String
+        +Location: String
+        +Status: String
+    }
+
+    class Station {
+        +StationID: int
+        +StationName: String
+        -Status: String
+    }
+
+    class Employee {
+        +ID: int
+        -Name: String
+    }
+
+    class EmployeeRepository {
+        +Add(employee: Employee)
+        +GetAll(): List<Employee>
+        +GetByID(id: int): Employee
+        +GetByName(name: String): Employee
+    }
+    class StationRepository {
+        +Add(station: Station)
+        +GetAll(): List<Station>
+        +GetByID(id: int): Station
+        +GetByName(name: String): Station
+    }
+    class TrackingSlipRepository {
+        +Add(trackingSlip: CaliberTrackingSlip)
+        +GetByID(id: String): CaliberTrackingSlip
+        +GetAll(): List<CaliberTrackingSlip>
+        +GetHistory(caliberID: String): List<CaliberTrackingSlip>
+    }
+}
+
+CreateTrackingSlipView ..> CreateTrackingSlip : Data Binding
+CreateTrackingSlip --> TrackingSlipService : Uses
+TrackingSlipService --> CaliberTrackingSlip : Instantiates
+TrackingSlipService --> Station : Associates
+CaliberTrackingSlip "0..*" -- "1..*" Station
+Employee "1..*" -- "1" Station
+CreateTrackingSlip --> LabelPrinter : Uses
+
+@enduml
