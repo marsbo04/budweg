@@ -8,13 +8,10 @@ Medarbejder -> System: Registere/vælger deltype.
 Medarbejder -> System: Angiver data i felter
 alt Validering fejler
     System --> Medarbejder: Vis fejlbesked
+    System --> Medarbejder: Returnér til start
 else Validering lykkes
-    System --> Medarbejder: Vis bekræftelse
-    alt Konflikt/duplikat-ID
-        System --> Medarbejder: Vis fejlbesked
-    else ID er unikt
     System --> Medarbejder: Genererer unikt sporings-ID
-    System --> Medarbejder: Udskriver QR/barcode-label
-    end
+    System --> Medarbejder: Vis bekræftelse
+    System --> Medarbejder: Udskriv barkode
 end
 @enduml
