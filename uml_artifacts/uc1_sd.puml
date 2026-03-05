@@ -1,19 +1,21 @@
 @startuml UC1SD
 title  Sekvensdiagram - UC1: Opret Følgeseddel
     actor "Actor" as User
+    activate User
     participant "CreateTrackingSlipView" as View
     participant "CreateTrackingSlip" as VM
     participant "TrackingSlipService" as Service
     participant "CaliberTrackingSlip" as Model
     participant "LabelPrinter" as Printer
-
+    activate View
+    activate VM
     User->View: Select Station & Enter Info
     View->VM: Data Binding (Updates properties)
-    
+
     User->View: Click "Create Tracking Slip"
     View->VM: createTrackingSlipCommand()
+   
     
-        activate VM
         Note over VM: Validate Input
         VM->VM: validateInput()
     
@@ -26,9 +28,10 @@ title  Sekvensdiagram - UC1: Opret Følgeseddel
         Note right of Service:  Unique ID Generation
         
         create participant Model
+        activate Model
         Service->Model: new CaliberTrackingSlip(id, info)
         Service->Model: associateWithStation(stationID)
-        
+        deactivate Model
         Service-->VM: return CaliberTrackingSlip
         deactivate Service
         
@@ -37,6 +40,7 @@ title  Sekvensdiagram - UC1: Opret Følgeseddel
         Printer-->User: Print QR/Barcode Label
         deactivate Printer
         
+
         Note over VM: Process Finished
     else is invalid
         VM-->View: Update errorMessage
