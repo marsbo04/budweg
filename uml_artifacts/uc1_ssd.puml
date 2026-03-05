@@ -1,20 +1,20 @@
 @startuml SSD
-actor ":Medarbejder" as Medarbejder
-participant ":System" as System
+actor ": Medarbejder" as Medarbejder
+participant ": System" as System
 
 Medarbejder -> System: Opret Følgeseddel
-Medarbejder <-- System: Viser deltyper
-Medarbejder -> System: indtaster/vælger deltype.
-Medarbejder -> System: indtaster data i felter
-alt Validering fejler then Fejl
-    System --> Medarbejder: Viser fejlbesked
+Medarbejder <-- System: Vis deltyper
+Medarbejder -> System: Registere/vælger deltype.
+Medarbejder -> System: Angiver data i felter
+alt Validering fejler
+    System --> Medarbejder: Vis fejlbesked
 else Validering lykkes
-    System --> Medarbejder: Viser bekræftelse
-    alt Konflikt/duplikat-ID teknisk then Fejl
-        System --> Medarbejder: Viser fejlbesked
+    System --> Medarbejder: Vis bekræftelse
+    alt Konflikt/duplikat-ID
+        System --> Medarbejder: Vis fejlbesked
     else ID er unikt
-    System --> Medarbejder: genererer unikt sporings-ID
-    System --> Medarbejder:  udskriver QR/barcode-label
+    System --> Medarbejder: Genererer unikt sporings-ID
+    System --> Medarbejder: Udskriver QR/barcode-label
     end
 end
 @enduml
