@@ -1,6 +1,6 @@
 @startuml SSD
-actor "Medarbejder" as Medarbejder
-participant "system" as System
+actor ":Medarbejder" as Medarbejder
+participant ":System" as System
 
 Medarbejder -> System: Opret Følgeseddel
 System -> Medarbejder: Viser deltyper
