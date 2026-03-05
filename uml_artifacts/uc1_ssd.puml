@@ -3,18 +3,18 @@ actor ":Medarbejder" as Medarbejder
 participant ":System" as System
 
 Medarbejder -> System: Opret Følgeseddel
-System -> Medarbejder: Viser deltyper
+Medarbejder <-- System: Viser deltyper
 Medarbejder -> System: indtaster/vælger deltype.
 Medarbejder -> System: indtaster data i felter
 alt Validering fejler then Fejl
-    System -> Medarbejder: Viser fejlbesked
+    System --> Medarbejder: Viser fejlbesked
 else Validering lykkes
-    System -> Medarbejder: Viser bekræftelse
+    System --> Medarbejder: Viser bekræftelse
     alt Konflikt/duplikat-ID teknisk then Fejl
-        System -> Medarbejder: Viser fejlbesked
+        System --> Medarbejder: Viser fejlbesked
     else ID er unikt
-    System -> Medarbejder: genererer unikt sporings-ID
-    System -> Medarbejder:  udskriver QR/barcode-label
+    System --> Medarbejder: genererer unikt sporings-ID
+    System --> Medarbejder:  udskriver QR/barcode-label
     end
 end
 @enduml
