@@ -19,15 +19,15 @@ rectangle "D.I.M.Ve.Tra.L" {
     usecase "Udskriv QR/\nbarcode-label" as UC6    
     usecase "Håndtér duplikat-ID\n(regenerér ID)" as UC7
 }
-
+Management ---> UC4
 Employee --> UC1
-UC1 .> UC2 : <<include>>
-UC1 .> UC3 : <<include>>
-UC1 .> UC4 : <<include>>
+UC1 ..> UC2 : <<include>>
+UC1 ..> UC3 : <<include>>
+UC1 ..> UC4 : <<include>>
 UC1 .> UC5 : <<include>>
 UC1 .> UC6 : <<include>>
 UC7 .> UC3 : <<extend>>
 Quality --> UC5
-Management --> UC4
+
 
 @enduml
