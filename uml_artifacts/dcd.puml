@@ -1,79 +1,205 @@
+@startuml DCD
+title MVVM DCD 
 
-@startuml UC1DCD
-title Design Class Diagram - UC1: Opret Følgeseddel
 hide circle
+skinparam classAttributeIconSize 0
+
 package "View" {
-    class CreateTrackingSlipView {
-        -viewModel: CreateTrackingSlip
-    }
+  class LoginWindow  {
+    -viewModel: LoginViewModel
+    +LoginWindow()
+    +performLogin(): void
+    +showError(msg: String): void
+    +updatePasswordPlaceholder(): void
+  }
+
+  class MainWindow {
+    -viewModel: MainWindowViewModel
+    +MainWindow()
+    +MainWindow(employeeId: String)
+  }
+
+  class KaliberIDInputWindow  {
+    +CaliberId: String {readOnly}
+    +KaliberIDInputWindow()
+    +TextBox_TextChanged(sender: Object, e: Object): void
+    +TextBox_GotFocus(sender: Object, e: Object): void
+    +TextBox_LostFocus(sender: Object, e: Object): void
+    +TextBox_KeyDown(sender: Object, e: Object): void
+    +submitCaliberId(): void
+  }
+
+  class CreateTrackingSlipView  {
+    -viewModel: CreateTrackingSlipViewModel
+    +CreateTrackingSlipView()
+    +bind(): void
+    +render(): void
+    +showError(msg: String): void
+    +clearError(): void
+  }
 }
 
 package "ViewModel" {
-    class CreateTrackingSlip {
-        +selectedStationID: int
-        +inputStartInfo: String
-        -errorMessage: String
-        +createTrackingSlipCommand()
-        -validateInput(): boolean
-    }
-    
-    class LabelPrinter {
-        +print(trackingSlip: CaliberTrackingSlip)
-    }
+  class LoginViewModel  {
+    +UserId: String
+    +Password: String
+    +ErrorMessage: String
+    +PropertyChanged: Object
+
+    +LoginViewModel()
+    +ValidateLogin(userId: String, password: String): boolean
+    -HashPassword(password: String): String
+    #OnPropertyChanged(propertyName: String = null): void
+  }
+
+  class MainWindowViewModel  {
+    +EmployeeId: String
+    +Title: String
+    +WelcomeText: String {readOnly}
+
+    +MainWindowViewModel()
+    +MainWindowViewModel(employeeId: String)
+    #OnPropertyChanged(propertyName: String = null): void
+  }
+
+  class KaliberIDInputViewModel  {
+    +EnteredID: String
+
+    +KaliberIDInputViewModel()
+    +Validate(): boolean
+  }
+
+  class CreateTrackingSlipViewModel  {
+    +selectedStationID: int
+    +startDate: DateTime
+    +status: ????
+    -errorMessage: String
+
+    +CreateTrackingSlipViewModel()
+    +createTrackingSlip(): void
+    +loadStations(): void
+    +getStations(): List<Station>
+    +setError(message: String): void
+    +clearError(): void
+    -validateInput(): boolean
+  }
 }
+
 
 package "Model" {
-    class TrackingSlipService {
-        +createTrackingSlip(stationID: int, info: String): CaliberTrackingSlip
-        -generateUniqueID(): String
-    }
+  interface ITrackingSlipRepository {
+    +GetById(id: String): CaliberTrackingSlip
+    +GetAll(): List<CaliberTrackingSlip>
+    +GetByLocation(location: String): List<CaliberTrackingSlip>
+    +GetHistory(trackingSlipId: String): List<History>
+    +Add(slip: CaliberTrackingSlip): void
+    +Exists(id: String): boolean
+  }
 
-    class CaliberTrackingSlip {
-        +ID: String
-        +StartDate: DateTime
-        +History: String
-        +Warehouse: String
-        +Location: String
-        +Status: String
-    }
+  interface IStationRepository {
+    +GetAll(): List<Station>
+    +GetById(id: int): Station
+    +GetByName(name: String): List<Station>
+  }
 
-    class Station {
-        +StationID: int
-        +StationName: String
-        -Status: String
-    }
+  interface IEmployeeRepository {
+    +GetById(id: int): Employee
+    +GetAll(): List<Employee>
+    +GetByName(name: String): List<Employee>
+    +GetByStation(stationId: int): List<Employee>
+    +Add(employee: Employee): void
+  }
 
-    class Employee {
-        +ID: int
-        -Name: String
-    }
+  interface ILoginAuthenticator {
+    +Authenticate(userId: String, password: String): boolean
+  }
 
-    class EmployeeRepository {
-        +Add(employee: Employee)
-        +GetAll(): List<Employee>
-        +GetByID(id: int): Employee
-        +GetByName(name: String): Employee
-    }
-    class StationRepository {
-        +Add(station: Station)
-        +GetAll(): List<Station>
-        +GetByID(id: int): Station
-        +GetByName(name: String): Station
-    }
-    class TrackingSlipRepository {
-        +Add(trackingSlip: CaliberTrackingSlip)
-        +GetByID(id: String): CaliberTrackingSlip
-        +GetAll(): List<CaliberTrackingSlip>
-        +GetHistory(caliberID: String): List<CaliberTrackingSlip>
-    }
+  interface ICaliberRepository {
+    +Exists(caliberId: String): boolean
+  }
 }
 
-CreateTrackingSlipView ..> CreateTrackingSlip : Data Binding
-CreateTrackingSlip --> TrackingSlipService : Uses
-TrackingSlipService --> CaliberTrackingSlip : Instantiates
-TrackingSlipService --> Station : Associates
-CaliberTrackingSlip "0..*" -- "1..*" Station
-Employee "1..*" -- "1" Station
-CreateTrackingSlip --> LabelPrinter : Uses
+
+package "Model" {
+
+
+  class CaliberTrackingSlip  {
+    +ID: String
+    +StartDate: DateTime
+    +Status: ????
+
+    +CaliberTrackingSlip(id: String, start: DateTime, status: TrackingSlipStatus)
+    +addHistory(h: History): void
+    +getLatestHistory(): History
+    +setStatus(status: ????): void
+    +isActive(): boolean
+    +moveToStation(station: Station): void
+  }
+
+  class History  {
+    +ID: String
+    +Completed: DateTime
+
+    +History(id: String, completed: DateTime)
+    +timestamp(): DateTime
+    +happenedAt(): Station
+  }
+
+  class Employee  {
+    +ID: int
+    +Name: String
+
+    +Employee(id: int, name: String)
+    +assignTo(station: Station): void
+    +isAssignedTo(station: Station): boolean
+    +currentStation(): Station
+  }
+
+  class Station  {
+    +ID: int
+    +Name: String
+    +StartDate: DateTime
+    +EndDate: DateTime
+    +Status: String
+    +Remark: String
+    +BuildingName: String
+
+    +Station(id: int, name: String)
+    +isActive(at: DateTime): boolean
+    +fullDisplayName(): String
+    +belongsTo(building: Building): boolean
+  }
+
+  class Building {
+    +Name: String
+    +Section: String
+
+    +Building(name: String, section: String)
+    +fullName(): String
+  }
+}
+
+LoginWindow ..> LoginViewModel 
+MainWindow ..> MainWindowViewModel 
+KaliberIDInputWindow ..> KaliberIDInputViewModel 
+CreateTrackingSlipView ..> CreateTrackingSlipViewModel 
+
+LoginViewModel ..> ILoginAuthenticator : uses
+KaliberIDInputViewModel ..> ICaliberRepository : uses
+CreateTrackingSlipViewModel ..> IStationRepository : uses
+CreateTrackingSlipViewModel ..> ITrackingSlipRepository : uses
+
+
+ITrackingSlipRepository ..> CaliberTrackingSlip 
+ITrackingSlipRepository ..> History : returns
+IStationRepository ..> Station
+IEmployeeRepository ..> Employee
+ICaliberRepository ..> CaliberTrackingSlip 
+
+
+CaliberTrackingSlip "1" *-- "1..*" History : consists_of
+History "1..*" --> "1" Station 
+Employee "1..*" --> "1" Station : assignedTo
+Station "1..*" --> "1" Building : locatedIn
 
 @enduml
