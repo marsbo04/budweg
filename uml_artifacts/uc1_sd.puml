@@ -1,49 +1,53 @@
-@startuml UC1SD
-title  Sekvensdiagram - UC1: Opret Følgeseddel
-    actor "Actor" as User
-    activate User
-    participant "CreateTrackingSlipView" as View
-    participant "CreateTrackingSlip" as VM
-    participant "TrackingSlipService" as Service
-    participant "CaliberTrackingSlip" as Model
-    participant "LabelPrinter" as Printer
-    activate View
-    activate VM
-    User->View: Select Station & Enter Info
-    View->VM: Data Binding (Updates properties)
+@startuml uc1_sd
+title SD for CreateTrackingSlip
+participant "CreateTrackingSlipView" as View
+participant "CreateTrackingSlipViewModel" as VM
+participant "stationRepo : IStationRepository" as SRepo <<interface>>
+participant "slipRepo : ITrackingSlipRepository" as TRepo <<interface>>
+participant "Station" as Station
+participant "CaliberTrackingSlip" as Slip
+participant "History" as Hist
 
-    User->View: Click "Create Tracking Slip"
-    View->VM: createTrackingSlipCommand()
-   
-    
-        Note over VM: Validate Input
-        VM->VM: validateInput()
-    
-    
-    alt is valid
-        VM->Service: createTrackingSlip(stationID, info)
-        
-        activate Service
-        Service->Service: generateUniqueID()
-        Note right of Service:  Unique ID Generation
-        
-        create participant Model
-        activate Model
-        Service->Model: new CaliberTrackingSlip(id, info)
-        Service->Model: associateWithStation(stationID)
-        deactivate Model
-        Service-->VM: return CaliberTrackingSlip
-        deactivate Service
-        
-        VM->Printer: print(trackingSlip)
-        activate Printer
-        Printer-->User: Print QR/Barcode Label
-        deactivate Printer
-        
+'User triggers creation from the View (e.g., button click)
+View -> VM : createTrackingSlip()
+activate VM
 
-        Note over VM: Process Finished
-    else is invalid
-        VM-->View: Update errorMessage
-        View-->User: Display Error Highlight
-    end
+'Input validation
+VM -> VM : validateInput()
+alt invalid input
+  VM -> VM : setError("Please select a valid station / start date")
+  VM --> View : clearError(); showError(errorMessage)
+  deactivate VM
+  return
+end
+
+'Load Station (domain ref)
+VM -> SRepo : GetById(selectedStationID)
+activate SRepo
+SRepo --> VM : Station
+deactivate SRepo
+
+'Create thedomain object
+note right of VM
+ID generation can be handled here (GUID)
+the domain object is created in the VM layer.
+end note
+VM -> Slip ++ : new CaliberTrackingSlip(id, startDate, TrackingSlipStatus.Created)
+
+'Add initial history step (performedAt = Station)
+VM -> Hist ++ : new History(historyId, completed = startDate)
+VM -> Slip : addHistory(Hist)
+deactivate Hist
+
+'Persist the new tracking slip
+VM -> TRepo : Add(Slip)
+activate TRepo
+TRepo --> VM : ok
+deactivate TRepo
+
+'Return to View
+VM --> View : success
+deactivate VM
+
+View -> View : clearError(); render()
 @enduml
