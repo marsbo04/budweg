@@ -72,7 +72,7 @@ package "ViewModel" {
   class CreateTrackingSlipViewModel  {
     +selectedStationID: int
     +startDate: DateTime
-    +status: ????
+    +status: boolean
     -errorMessage: String
 
     +CreateTrackingSlipViewModel()
@@ -114,9 +114,7 @@ package "Model" {
     +Authenticate(userId: String, password: String): boolean
   }
 
-  interface ICaliberRepository {
-    +Exists(caliberId: String): boolean
-  }
+
 }
 
 
@@ -126,24 +124,17 @@ package "Model" {
   class CaliberTrackingSlip  {
     +ID: String
     +StartDate: DateTime
-    +Status: ????
+    +Status: boolean
+    + History: List<Station>
 
     +CaliberTrackingSlip(id: String, start: DateTime, status: TrackingSlipStatus)
-    +addHistory(h: History): void
-    +getLatestHistory(): History
-    +setStatus(status: ????): void
+    +addHistory(h: Station): void
+    +getLatestHistory(): Station
+    +setStatus(status: boolean): void
     +isActive(): boolean
     +moveToStation(station: Station): void
   }
 
-  class History  {
-    +ID: String
-    +Completed: DateTime
-
-    +History(id: String, completed: DateTime)
-    +timestamp(): DateTime
-    +happenedAt(): Station
-  }
 
   class Employee  {
     +ID: int
@@ -185,20 +176,17 @@ KaliberIDInputWindow ..> KaliberIDInputViewModel
 CreateTrackingSlipView ..> CreateTrackingSlipViewModel 
 
 LoginViewModel ..> ILoginAuthenticator : uses
-KaliberIDInputViewModel ..> ICaliberRepository : uses
+KaliberIDInputViewModel ..> ITrackingSlipRepository : uses
 CreateTrackingSlipViewModel ..> IStationRepository : uses
 CreateTrackingSlipViewModel ..> ITrackingSlipRepository : uses
 
 
 ITrackingSlipRepository ..> CaliberTrackingSlip 
-ITrackingSlipRepository ..> History : returns
 IStationRepository ..> Station
 IEmployeeRepository ..> Employee
-ICaliberRepository ..> CaliberTrackingSlip 
 
 
-CaliberTrackingSlip "1" *-- "1..*" History : consists_of
-History "1..*" --> "1" Station 
+CaliberTrackingSlip "1" -- "1..*" Station : History_of
 Employee "1..*" --> "1" Station : assignedTo
 Station "1..*" --> "1" Building : locatedIn
 
