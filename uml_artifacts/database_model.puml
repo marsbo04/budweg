@@ -10,11 +10,12 @@ class "KaliberFølgeseddel" <<table>>
     StartDato: DateTime2
     Status : BIT
     <<FK>>Historik : NVarChar[64]
+    <<FK>>Historik : INT
 }
 
 class "Station" <<table>>
 {
-    <<PK>>ID : NVarChar[32]
+    <<PK>>ID : INT
     Navn : NVarChar[32]
     StartDato : DateTime2
     SlutDato : DateTime2
@@ -27,7 +28,7 @@ class "Medarbejder" <<table>>
 {
     <<PK>>ID : INT
     Navn : NVarChar[32]
-    <<FK>>StationsID : NVarChar[32]
+    <<FK>>StationsID : INT
 }
 
 class "Bygning" <<table>>
