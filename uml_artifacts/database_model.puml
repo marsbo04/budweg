@@ -9,12 +9,13 @@ class "KaliberFølgeseddel" <<table>>
     <<PK>>ID : INT
     StartDato: DateTime2
     Status : BIT
-    <<FK>>Historik : NVarChar[64]
+    Navn : NVarChar[32]
+    <<FK>>Historik : INT
 }
 
 class "Station" <<table>>
 {
-    <<PK>>ID : NVarChar[32]
+    <<PK>>ID : INT
     Navn : NVarChar[32]
     StartDato : DateTime2
     SlutDato : DateTime2
@@ -22,18 +23,12 @@ class "Station" <<table>>
     Bemærkning : NVarChar[64]
     <<FK>>Bygningsnavn : NVarChar[32]
 }
-class "Historik" <<table>>
-{
-    <<PK>>ID : INT
-    Gennemført : BIT
-    <<FK>>StationsID : NVarChar[32]
-}
 
 class "Medarbejder" <<table>>
 {
     <<PK>>ID : INT
     Navn : NVarChar[32]
-    <<FK>>StationsID : NVarChar[32]
+    <<FK>>StationsID : INT
 }
 
 class "Bygning" <<table>>
@@ -42,8 +37,7 @@ class "Bygning" <<table>>
     Sektion : NVarChar[32]
 }
 
-KaliberFølgeseddel -- Historik
-Station -- Historik
+Station -- KaliberFølgeseddel
 Station -- Bygning
 Medarbejder -- Station
 
