@@ -9,7 +9,7 @@ class "KaliberFølgeseddel" <<table>>
     <<PK>>ID : INT
     StartDato: DateTime2
     Status : BIT
-    <<FK>>Historik : NVarChar[64]
+    Navn : NVarChar[32]
     <<FK>>Historik : INT
 }
 
