@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using dimvetral.Models;
-using dimvetral.Repo;
+using dimvetral.Models.Repo;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
@@ -113,8 +113,7 @@ namespace dimvetral.ViewModels
                                     reader["CaliberTrackingSlipID"].ToString() ?? string.Empty,
                                     reader["CaliberTrackingSlipName"].ToString() ?? string.Empty,
                                     reader["History"].ToString() ?? string.Empty,
-                                    reader["Location"].ToString() ?? string.Empty,
-                                    reader["Status"].ToString() ?? string.Empty,
+                                    (bool)(reader["Status"] ?? bool.FalseString),
                                     reader["Warehouse"].ToString() ?? string.Empty,
                                     Convert.ToDateTime(reader["StartDate"])
                                 );

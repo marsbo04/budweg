@@ -6,16 +6,6 @@ namespace dimvetral.Models
 {
     internal class TrackingSlipService
     {
-        public CaliberTrackingSlip createTrackingSlip(int stationID, string location)
-        {
-            string trackingSlipID = Guid.NewGuid().ToString();
-            string SationID  = $"Tracking Slip for Station {stationID}";
-            CaliberTrackingSlip newCal = new CaliberTrackingSlip(trackingSlipID, SationID);
-            return newCal;
-        }
-        private string generateTrackingSlipID()
-        {
-            return Guid.NewGuid().ToString();
-        }
+
     }
 }

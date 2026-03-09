@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace dimvetral.Repo
+namespace dimvetral.Models.Repo
 {
     internal class RepoTrackingSlip
     {
@@ -31,21 +31,6 @@ namespace dimvetral.Repo
             return trackingSlips.Find(t => t.CaliberTrackingSlipID == id);
         }
         
-        public List<CaliberTrackingSlip> getByLocation(string location)
-        {
-            return trackingSlips.FindAll(t => t.Location == location);
-        }
-        
-        public List<string> GetHistory(string id)
-        {
-            var trackingSlip = getById(id);
-            if (trackingSlip != null)
-            {
-                return trackingSlip.HistoryList;
-            }
 
-            string historyEntry = $"Tracking slip with ID {id} not found.";
-            return new List<string> { historyEntry };
-        }
     }
 }

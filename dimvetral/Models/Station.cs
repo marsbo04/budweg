@@ -4,18 +4,39 @@ using System.Text;
 
 namespace dimvetral.Models
 {
-    internal class Station
+    public class Station
     {
-        public string StationID { get; internal set; }
-        public string StationName{ get; internal set; }
-       public string Status;
+        internal int StationID;
 
-        Station(string Id, string name, string status) {
-            this.StationID = StationID;
-            this.StationName = StationName;
-            this.Status = Status;
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Status { get; set; }
+        public string Remark { get; set; }
+        public string BuildingName { get; set; }
+
+        public Station(int id, string name)
+        {
+            ID = id;
+            Name = name;
         }
 
+        public bool isActive(DateTime at)
+        {
+            return at >= StartDate && at <= EndDate;
+        }
 
+        public string fullDisplayName()
+        {
+            return string.IsNullOrEmpty(BuildingName) 
+                ? Name 
+                : $"{Name} - {BuildingName}";
+        }
+
+        public bool belongsTo(Building building)
+        {
+            return building != null && BuildingName == building.Name;
+        }
     }
 }
