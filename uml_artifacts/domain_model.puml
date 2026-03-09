@@ -8,6 +8,7 @@ class KaliberFølgeseddel
     ID
     StartDato
     Status
+    Navn
 }
 
 class Station
