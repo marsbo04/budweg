@@ -22,12 +22,6 @@ class "Station" <<table>>
     Bemærkning : NVarChar[64]
     <<FK>>Bygningsnavn : NVarChar[32]
 }
-class "Historik" <<table>>
-{
-    <<PK>>ID : INT
-    Gennemført : BIT
-    <<FK>>StationsID : NVarChar[32]
-}
 
 class "Medarbejder" <<table>>
 {
@@ -42,8 +36,7 @@ class "Bygning" <<table>>
     Sektion : NVarChar[32]
 }
 
-KaliberFølgeseddel -- Historik
-Station -- Historik
+Station -- KaliberFølgeseddel
 Station -- Bygning
 Medarbejder -- Station
 
