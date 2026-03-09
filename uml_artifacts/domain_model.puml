@@ -2,19 +2,12 @@
 
 hide methods
 hide circle
+
 class KaliberFølgeseddel
 {
     ID
     StartDato
     Status
-    Historik
-}
-
-class Historik
-{
-    ID
-    Gennemført
-    StationsID
 }
 
 class Station
@@ -41,8 +34,8 @@ class Bygning
     Sektion
 }
 
-Medarbejder "1..* " -- "1" Station
-KaliberFølgeseddel "1  " -- "1..*  " Historik
-Historik "1 " -- "1..* " Station
-Station "1..* " -- "1 " Bygning
+Medarbejder "0..*" -- "1" Station : Arbejder ved
+' A station instance is added to KaliberFølgeseddel the moment a component arrives at a station. Thus the relationship is many to one.
+KaliberFølgeseddel "1..*" -- "1" Station : Fører historik
+Station "1..*" -- "1" Bygning : Indeholder
 @enduml
