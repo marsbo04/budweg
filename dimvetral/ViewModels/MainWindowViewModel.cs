@@ -97,7 +97,7 @@ namespace dimvetral.ViewModels
                     con.Open();
                     
                     string query = @"SELECT CaliberTrackingSlipID, CaliberTrackingSlipName, 
-                                           History, Location, Status, Warehouse, StartDate 
+                                           History, Status, Warehouse, StartDate 
                                      FROM CaliberTrackingSlips 
                                      ORDER BY StartDate DESC";
 
@@ -161,7 +161,7 @@ namespace dimvetral.ViewModels
                     
                     string query = @"INSERT INTO CaliberTrackingSlips 
                                     (CaliberTrackingSlipID, CaliberTrackingSlipName, History, 
-                                     Location, Status, Warehouse, StartDate) 
+                                    Status, Warehouse, StartDate) 
                                     VALUES (@CaliberId, @Name, @History, @Location, @Status, @Warehouse, @StartDate)";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -169,7 +169,6 @@ namespace dimvetral.ViewModels
                         cmd.Parameters.AddWithValue("@CaliberId", caliberId);
                         cmd.Parameters.AddWithValue("@Name", $"Kaliber {caliberId}");
                         cmd.Parameters.AddWithValue("@History", $"Oprettet af medarbejder {EmployeeId} den {DateTime.Now:dd-MM-yyyy HH:mm}");
-                        cmd.Parameters.AddWithValue("@Location", "Lager");
                         cmd.Parameters.AddWithValue("@Status", "Aktiv");
                         cmd.Parameters.AddWithValue("@Warehouse", "Hovedlager");
                         cmd.Parameters.AddWithValue("@StartDate", DateTime.Now);
