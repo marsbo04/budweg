@@ -6,7 +6,238 @@
         xmlns:local="clr-namespace:dimvetral"
         mc:Ignorable="d"
         Title="CreateTrackningSlipWindowView" Height="450" Width="800">
+    <Window.Resources>
+        <!-- Circular Button Style -->
+        <Style x:Key="CircularButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="circle"
+                                     Fill="{TemplateBinding Background}"
+                                     Stroke="{TemplateBinding BorderBrush}"
+                                     StrokeThickness="{TemplateBinding BorderThickness}" />
+                            <ContentPresenter HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="10" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="circle" Property="Fill" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="circle" Property="Fill" Value="#B0B0B0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid Background="#F5F5F5">
+            <!-- Hovedramme der tilpasser sig skærmen -->
+            <Border BorderBrush="Black" BorderThickness="3" Margin="15" Background="White">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!-- Venstre side tager 65% af pladsen, højre tager 35% -->
+                        <ColumnDefinition Width="6.5*" />
+                        <ColumnDefinition Width="3.5*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- VENSTRE SEKTION:-->
+                    <Border BorderBrush="Black" BorderThickness="0,0,2,0">
+                        <Grid Margin="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Cirkulære knapper i toppen -->
+                            <UniformGrid Grid.Row="0" 
+                                         Rows="1" 
+                                         Columns="3"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Top"
+                                         Margin="0,20,0,0">
+                                <!-- Start knap -->
+                                <Button x:Name="KaliberDel1" 
+                                        Click="KaliberDel1"
+                                        Style="{StaticResource CircularButton}"
+                                        Width="100"
+                                        Height="100"
+                                        Background="White"
+                                        BorderBrush="Black"
+                                        BorderThickness="2"
+                                        Tag="#E0E0E0"
+                                        Cursor="Hand"
+                                        Margin="10">
+                                    <TextBlock Text="KaliberDel1" 
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               TextAlignment="Center" />
+                                </Button>
+
+                                <!-- Help knap -->
+                                <Button x:Name="KaliberDel2" 
+                                        Click="KaliberDel2"
+                                        Style="{StaticResource CircularButton}"
+                                        Width="100"
+                                        Height="100"
+                                        Background="White"
+                                        BorderBrush="Black"
+                                        BorderThickness="2"
+                                        Tag="#E0E0E0"
+                                        Cursor="Hand"
+                                        Margin="10">
+                                    <TextBlock Text="KaliberDel2" 
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               TextAlignment="Center" />
+                                </Button>
+
+                                <!-- Exit knap -->
+                                <Button x:Name="KalibrDel3" 
+                                        Click="KaliberDel3"
+                                        Style="{StaticResource CircularButton}"
+                                        Width="100"
+                                        Height="100"
+                                        Background="White"
+                                        BorderBrush="Black"
+                                        BorderThickness="2"
+                                        Tag="#FFE0E0"
+                                        Cursor="Hand"
+                                        Margin="10">
+                                    <TextBlock Text="KaliberDel3" 
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Foreground="Black"
+                                               TextAlignment="Center" />
+                                </Button>
+                            </UniformGrid>
+
+
+                            <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,1">
+                                <TextBlock Text="Bemærknig" Margin="0,0,0,1" FontWeight="SemiBold"/>
+                                <TextBox AcceptsReturn="True" TextWrapping="Wrap" 
+                                         MaxHeight="200" Width="400"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200"/>
+                            </StackPanel>
+
+                        </Grid>
+                    </Border>
+
+                    <!-- HØJRE SEKTION: Kontrolpanel -->
+                    <Grid Grid.Column="1" Margin="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <!-- Bruger info -->
+                            <RowDefinition Height="*" />
+                            <!-- Center ikon -->
+                            <RowDefinition Height="Auto" />
+                            <!-- Knapper i bunden -->
+                        </Grid.RowDefinitions>
+
+                        <!-- Top: ID Information -->
+                        <StackPanel Grid.Row="0">
+                            <!-- Medarbejder ID -->
+                            <Grid Margin="0,0,0,10">
+                                <TextBlock Text="Medarbejder ( ID )" 
+                                       VerticalAlignment="Center" 
+                                       FontWeight="SemiBold" />
+                                <Border Width="100" Height="35" 
+                                    BorderBrush="Black" 
+                                    BorderThickness="2" 
+                                    Margin="127,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    Background="White">
+                                    <TextBlock Text="{Binding EmployeeId}" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"
+                                           FontSize="10"
+                                           FontWeight="Bold"/>
+                                </Border>
+                            </Grid>
+
+                            <!-- Bremseskaliber ID -->
+                            <Grid>
+
+
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Midte: Stort Responsivt Ikon -->
+                        <Viewbox Grid.Row="1" MaxHeight="200" Margin="0,20">
+                            <Grid Width="100" Height="100">
+                                <Ellipse Stroke="Black" StrokeThickness="2" Fill="Transparent" />
+                                <Path Data="M 30,35 L 50,25 L 70,35 L 70,60 L 50,70 L 30,60 Z M 30,35 L 50,45 L 70,35 M 50,45 L 50,70" 
+                                  Stroke="Black" StrokeThickness="2" />
+                            </Grid>
+                        </Viewbox>
+
+                        <!-- Bund: Aktioner -->
+                        <StackPanel Grid.Row="2" VerticalAlignment="Bottom">
+                            <!-- Knappen til at tilføje ny kaliber - BUNDET TIL COMMAND -->
+                            <Button Content="Tilføj ny kaliber" 
+                                Command="{Binding AddNewCaliberCommand}"
+                                Padding="10"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Background="White"
+                                BorderBrush="Black"
+                                BorderThickness="2"
+                                HorizontalAlignment="Stretch"
+                                Cursor="Hand"
+                                Margin="0,0,0,15">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="5">
+                                                        <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#E0E0E0" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <!-- Log ud knap - BUNDET TIL COMMAND -->
+                            <Button Content="Log ud" 
+                                Command="{Binding LogoutCommand}"
+                                Foreground="Red"
+                                FontWeight="Bold"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                HorizontalAlignment="Center"
+                                Padding="10"
+                                Cursor="Hand">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="DarkRed" />
+                                                <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

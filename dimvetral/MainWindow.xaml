@@ -50,8 +50,8 @@
                                                     Binding="{Binding CaliberTrackingSlipID}" 
                                                     Width="Auto" 
                                                     MinWidth="100" />
-                                <DataGridTextColumn Header="Lokation" 
-                                                    Binding="{Binding Location}" 
+                                <DataGridTextColumn Header="Station"
+                                                    Binding="{Binding StationName}"
                                                     Width="*" 
                                                     MinWidth="120" />
                             </DataGrid.Columns>

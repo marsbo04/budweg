@@ -17,9 +17,12 @@ namespace dimvetral
     /// </summary>
     public partial class CreateTrackningSlipWindowView : Window
     {
+
         public CreateTrackningSlipWindowView()
         {
             InitializeComponent();
         }
+
+
     }
 }
