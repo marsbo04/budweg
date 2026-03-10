@@ -8,7 +8,6 @@
         Title="CreateTrackningSlipWindowView" Height="450" Width="800">
 
     <Grid>
-        <!-- VENSTRE SEKTION:-->
         <Border BorderBrush="Black" BorderThickness="0,0,2,0">
             <Grid Margin="20">
                 <Grid.RowDefinitions>
