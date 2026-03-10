@@ -7,7 +7,7 @@ skinparam classAttributeIconSize 0
 package "View" {
   class LoginWindow  {
     -viewModel: LoginViewModel
-    +LoginWindow()
+    +<<constructor>>LoginWindow()
     +performLogin(): void
     +showError(msg: String): void
     +updatePasswordPlaceholder(): void
@@ -15,23 +15,23 @@ package "View" {
 
   class MainWindow {
     -viewModel: MainWindowViewModel
-    +MainWindow()
-    +MainWindow(employeeId: String)
+    +<<constructor>>MainWindow()
+    +<<constructor>>MainWindow(employeeId: String)
   }
 
-  class KaliberIDInputWindow  {
+class KaliberIDInputWindow  {
     +CaliberId: String {readOnly}
-    +KaliberIDInputWindow()
+    +<<constructor>>KaliberIDInputWindow()
     +TextBox_TextChanged(sender: Object, e: Object): void
     +TextBox_GotFocus(sender: Object, e: Object): void
     +TextBox_LostFocus(sender: Object, e: Object): void
     +TextBox_KeyDown(sender: Object, e: Object): void
     +submitCaliberId(): void
-  }
+}
 
   class CreateTrackingSlipView  {
     -viewModel: CreateTrackingSlipViewModel
-    +CreateTrackingSlipView()
+    +<<constructor>>CreateTrackingSlipView()
     +bind(): void
     +render(): void
     +showError(msg: String): void
@@ -39,7 +39,7 @@ package "View" {
   }
   class RemarkInputWindow {
     +Remark: String {readOnly}
-    +RemarkInputWindow()
+    +<<constructor>>RemarkInputWindow()
     +TextBox_TextChanged(sender: Object, e: Object): void
     +TextBox_GotFocus(sender: Object, e: Object): void
     +TextBox_LostFocus(sender: Object, e: Object): void
@@ -55,7 +55,7 @@ package "ViewModel" {
     +ErrorMessage: String
     +PropertyChanged: Object
 
-    +LoginViewModel()
+    +<<constructor>>LoginViewModel()
     +ValidateLogin(userId: String, password: String): boolean
     -HashPassword(password: String): String
     #OnPropertyChanged(propertyName: String = null): void
@@ -65,16 +65,16 @@ package "ViewModel" {
     +EmployeeId: String
     +Title: String
     +WelcomeText: String {readOnly}
-
-    +MainWindowViewModel()
-    +MainWindowViewModel(employeeId: String)
+    
+    +<<constructor>>MainWindowViewModel()
+    +<<constructor>>MainWindowViewModel(employeeId: String)
     #OnPropertyChanged(propertyName: String = null): void
   }
 
   class KaliberIDInputViewModel  {
     +EnteredID: String
-
-    +KaliberIDInputViewModel()
+    --
+    +<<constructor>>KaliberIDInputViewModel()
     +Validate(): boolean
   }
 
@@ -84,7 +84,7 @@ package "ViewModel" {
     +status: boolean
     -errorMessage: String
 
-    +CreateTrackingSlipViewModel()
+    +<<constructor>>CreateTrackingSlipViewModel()
     +createTrackingSlip(): void
     +loadStations(): void
     +getStations(): List<Station>
@@ -94,10 +94,9 @@ package "ViewModel" {
   }
   class RemarkInputViewModel {
     +EnteredRemark: String
-
-    +RemarkInputViewModel()
+    +<<constructor>>RemarkInputViewModel()
     +Validate(): boolean
-}
+  }
 }
 
 package "Model" {
@@ -128,15 +127,13 @@ package "Model" {
     +Authenticate(userId: String, password: String): boolean
   }
 
-
-
   class CaliberTrackingSlip  {
     +ID: String
     +StartDate: DateTime
     +Status: boolean
     + History: List<Station>
 
-    +CaliberTrackingSlip(id: String, start: DateTime, status: TrackingSlipStatus)
+    +<<constructor>>CaliberTrackingSlip(id: String, start: DateTime, status: TrackingSlipStatus)
     +addHistory(h: Station): void
     +getLatestHistory(): Station
     +setStatus(status: boolean): void
@@ -144,12 +141,11 @@ package "Model" {
     +moveToStation(station: Station): void
   }
 
-
   class Employee  {
     +ID: int
     +Name: String
 
-    +Employee(id: int, name: String)
+    +<<constructor>>Employee(id: int, name: String)
     +assignTo(station: Station): void
     +isAssignedTo(station: Station): boolean
     +currentStation(): Station
@@ -164,7 +160,7 @@ package "Model" {
     +Remark: String
     +BuildingName: String
 
-    +Station(id: int, name: String)
+    +<<constructor>>Station(id: int, name: String)
     +isActive(at: DateTime): boolean
     +fullDisplayName(): String
     +belongsTo(building: Building): boolean
@@ -174,7 +170,7 @@ package "Model" {
     +Name: String
     +Section: String
 
-    +Building(name: String, section: String)
+    +<<constructor>>Building(name: String, section: String)
     +fullName(): String
   }
 }
@@ -185,20 +181,17 @@ KaliberIDInputWindow ..> KaliberIDInputViewModel
 CreateTrackingSlipView ..> CreateTrackingSlipViewModel 
 RemarkInputWindow ..> RemarkInputViewModel 
 
-LoginViewModel ..> ILoginAuthenticator : uses
-KaliberIDInputViewModel ..> ITrackingSlipRepository : uses
-CreateTrackingSlipViewModel ..> IStationRepository : uses
-CreateTrackingSlipViewModel ..> ITrackingSlipRepository : uses
-RemarkInputViewModel ..> IStationRepository: uses
-
+LoginViewModel ..> ILoginAuthenticator : <<uses>>
+KaliberIDInputViewModel ..> ITrackingSlipRepository : <<uses>>
+CreateTrackingSlipViewModel ..> IStationRepository : <<uses>>
+CreateTrackingSlipViewModel ..> ITrackingSlipRepository : <<uses>>
+RemarkInputViewModel ..> IStationRepository: <<uses>>
 
 ITrackingSlipRepository ..> CaliberTrackingSlip 
 IStationRepository ..> Station
 IEmployeeRepository ..> Employee
 
-
-CaliberTrackingSlip "1" -- "1..*" Station : History_of
-Employee "1..*" --> "1" Station : assignedTo
-Station "1..*" --> "1" Building : locatedIn
-
+CaliberTrackingSlip "1" -- "1..*" Station : History-Of
+Employee "1..*" -- "1" Station : Assigned-To
+Station "1..*" --* "1" Building : Located-In
 @enduml
