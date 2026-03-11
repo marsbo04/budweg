@@ -65,8 +65,6 @@ namespace dimvetral.ViewModels
             clearError();
         }
 
-
-
         public List<Station> getStations()
         {
             return _stationRepository.GetAll();

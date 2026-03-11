@@ -12,9 +12,6 @@ using System.Windows.Shapes;
 
 namespace dimvetral.Views
 {
-
-    /// Interaction logic for Kaliber_IDInputWindow.xaml
- 
     public partial class Kaliber_IDInputWindow : Window
     {
         public string CaliberId { get; private set; }

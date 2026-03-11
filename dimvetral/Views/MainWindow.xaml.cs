@@ -12,9 +12,6 @@ using dimvetral.ViewModels;
 
 namespace dimvetral.Views
 {
-
-    /// Interaction logic for MainWindow.xaml
-
     public partial class MainWindow : Window
     {
         private readonly MainWindowViewModel _viewModel;
