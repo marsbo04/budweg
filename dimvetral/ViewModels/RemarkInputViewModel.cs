@@ -3,11 +3,11 @@ using System.Runtime.CompilerServices;
 
 namespace dimvetral.ViewModels
 {
-    public class RemarkInputViewModel : INotifyPropertyChanged
+    public class RemarkInputViewModel : BaseViewModel
     {
         private string _enteredRemark;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        
 
         public RemarkInputViewModel()
         {
@@ -26,11 +26,6 @@ namespace dimvetral.ViewModels
         public bool Validate()
         {
             return !string.IsNullOrWhiteSpace(EnteredRemark);
-        }
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

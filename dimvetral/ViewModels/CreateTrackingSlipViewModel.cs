@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace dimvetral.ViewModels
 {
-    public class CreateTrackingSlipViewModel : INotifyPropertyChanged
+    public class CreateTrackingSlipViewModel : BaseViewModel
     {
         private readonly IStationRepository _stationRepository;
         private readonly ITrackingSlipRepository _trackingSlipRepository;
@@ -15,8 +15,6 @@ namespace dimvetral.ViewModels
         private DateTime _startDate;
         private bool _status;
         private string _errorMessage;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public CreateTrackingSlipViewModel(IStationRepository stationRepository, ITrackingSlipRepository trackingSlipRepository)
         {
@@ -90,11 +88,6 @@ namespace dimvetral.ViewModels
                 return false;
             }
             return true;
-        }
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

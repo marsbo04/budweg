@@ -6,16 +6,14 @@ using System.Text;
 
 namespace dimvetral.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel : BaseViewModel
     {
         private readonly ILoginAuthenticator _authenticator;
         private string _userId;
         private string _password;
         private string _errorMessage;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public LoginViewModel(ILoginAuthenticator authenticator)
+        public LoginViewModel(ILoginAuthenticator authenticator) // det er et interface? 
         {
    
         }

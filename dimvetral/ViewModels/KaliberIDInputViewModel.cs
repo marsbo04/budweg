@@ -4,12 +4,10 @@ using System.Runtime.CompilerServices;
 
 namespace dimvetral.ViewModels
 {
-    public class KaliberIDInputViewModel : INotifyPropertyChanged
+    public class KaliberIDInputViewModel : BaseViewModel
     {
         private readonly ITrackingSlipRepository _repository;
         private string _enteredID;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public KaliberIDInputViewModel(ITrackingSlipRepository repository)
         {
@@ -29,11 +27,6 @@ namespace dimvetral.ViewModels
         public bool Validate()
         {
             return !string.IsNullOrWhiteSpace(EnteredID) && _repository.Exists(EnteredID);
-        }
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
