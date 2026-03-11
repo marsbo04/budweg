@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace dimvetral
+namespace dimvetral.Views
 {
 
     /// Interaction logic for Kaliber_IDInputWindow.xaml

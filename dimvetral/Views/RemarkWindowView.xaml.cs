@@ -10,19 +10,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace dimvetral
+namespace dimvetral.Views
 {
     /// <summary>
-    /// Interaction logic for CreateTrackningSlipWindowView.xaml
+    /// Interaction logic for RemarkWindowView.xaml
     /// </summary>
-    public partial class CreateTrackningSlipWindowView : Window
+    public partial class RemarkWindowView : Window
     {
-
-        public CreateTrackningSlipWindowView()
+        public RemarkWindowView()
         {
             InitializeComponent();
         }
-
-
     }
 }

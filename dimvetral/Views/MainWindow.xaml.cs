@@ -10,7 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using dimvetral.ViewModels;
 
-namespace dimvetral
+namespace dimvetral.Views
 {
 
     /// Interaction logic for MainWindow.xaml
