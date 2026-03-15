@@ -4,7 +4,7 @@ using System.Text;
 
 namespace dimvetral.Models
 {
-    internal class TrackingSlipService
+    public class TrackingSlipService
     {
 
     }

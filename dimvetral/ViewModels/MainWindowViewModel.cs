@@ -136,7 +136,8 @@ namespace dimvetral.ViewModels
             
             if (caliberInputWindow.ShowDialog() == true)
             {
-                CaliberId = caliberInputWindow.CaliberId;
+
+                CaliberId = "tes"; 
                 
                 // Save to database
                 SaveNewCaliber(CaliberId);
@@ -203,6 +204,5 @@ namespace dimvetral.ViewModels
                 Application.Current.MainWindow?.Close();
             }
         }
-    }
     }
 }

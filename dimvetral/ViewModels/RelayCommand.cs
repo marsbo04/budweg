@@ -32,3 +32,4 @@ namespace dimvetral.ViewModels
             _execute(parameter);
         }
     }
+}

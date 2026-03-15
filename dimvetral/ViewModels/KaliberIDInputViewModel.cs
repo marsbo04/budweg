@@ -8,12 +8,27 @@ namespace dimvetral.ViewModels
     {
         private readonly ITrackingSlipRepository _repository;
         private string _enteredID;
+        private string _caliberID; 
 
         public KaliberIDInputViewModel(ITrackingSlipRepository repository)
         {
             _repository = repository;
         }
 
+
+        public string CaliberID
+
+        {
+            get
+            {
+                return _caliberID;
+            }
+            set
+            {
+                _caliberID = value;
+                OnPropertyChanged();
+            }
+        }
         public string EnteredID
         {
             get => _enteredID;
