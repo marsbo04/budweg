@@ -7,7 +7,7 @@ participant ":Station" as ST
 participant ":Medarbejder" as ME
 
 
--> F: opretFølgeseddel(deltype,\n startDato,\n startStatus,\n bemærkning,\n medarbejderID)
+[o-> F: opretFølgeseddel(deltype,\n startDato,\n startStatus,\n bemærkning,\n medarbejderID)
 activate F
 
 
