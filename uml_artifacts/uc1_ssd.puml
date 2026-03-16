@@ -1,17 +1,23 @@
-@startuml SSD
+@startuml
+title SSD: Opret følgeseddel
+
 actor ": Medarbejder" as Medarbejder
 participant ": System" as System
 
-Medarbejder -> System: Opret Følgeseddel
-Medarbejder <-- System: Vis deltyper
-Medarbejder -> System: Registere/vælger deltype.
-Medarbejder -> System: Angiver data i felter
-alt Validering fejler
-    System --> Medarbejder: Vis fejlbesked
+Medarbejder -> System: Opret følgeseddel
+System --> Medarbejder: Vis deltyper
+
+Medarbejder -> System: Vælg deltype
+Medarbejder -> System: Indtast startinfo\n(startDato, status, bemærkning, stationID)
+
+alt Medarbejder vælger at annullere
+    Medarbejder -> System: Annuller oprettelse    
     System --> Medarbejder: Returnér til start
-else Validering lykkes
-    System --> Medarbejder: Genererer unikt sporings-ID
-    System --> Medarbejder: Vis bekræftelse
-    System --> Medarbejder: Udskriv barkode
+else Medarbejder bekræfter oprettelse
+    Medarbejder -> System: opretFølgeseddel( deltype, startDato, status, bemærkning, stationID)
+
+    System --> Medarbejder: KaliberID
+    System --> Medarbejder: Generér og vis labelData\n(QR/Barcode)
 end
+
 @enduml
