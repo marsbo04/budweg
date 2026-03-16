@@ -5,7 +5,7 @@ title Sequence Diagram – Opret Følgeseddel
 participant ":Følgeseddel" as F
 participant ":Station" as ST
 participant ":Medarbejder" as ME
-
+participant " " as IL
 
 [o-> F: opretFølgeseddel(deltype,\n startDato,\n startStatus,\n bemærkning,\n medarbejderID)
 activate F
@@ -20,9 +20,8 @@ activate ST
 ST --> F: station(navn)      
 deactivate ST
 
-
 F -> F: create(deltype, startDato,\n startStatus, bemærkning,\n station, medarbejder)
-
+activate F
 
 F --> F: kaliberID
 
@@ -31,6 +30,7 @@ F -> F: historikListe.add("oprettet",\n medarbejder, timestamp,\n station, kalib
 
 
 <-- F: sporingsID + labelData
+deactivate F
 deactivate F
 
 @enduml
