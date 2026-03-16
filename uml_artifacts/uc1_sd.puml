@@ -1,53 +1,36 @@
-@startuml uc1_sd
-title SD for CreateTrackingSlip
-participant "CreateTrackingSlipView" as View
-participant "CreateTrackingSlipViewModel" as VM
-participant "stationRepo : IStationRepository" as SRepo <<interface>>
-participant "slipRepo : ITrackingSlipRepository" as TRepo <<interface>>
-participant "Station" as Station
-participant "CaliberTrackingSlip" as Slip
-participant "History" as Hist
+@startuml
+title Sequence Diagram – Opret Følgeseddel 
 
-'User triggers creation from the View (e.g., button click)
-View -> VM : createTrackingSlip()
-activate VM
 
-'Input validation
-VM -> VM : validateInput()
-alt invalid input
-  VM -> VM : setError("Please select a valid station / start date")
-  VM --> View : clearError(); showError(errorMessage)
-  deactivate VM
-  return
-end
+participant ":Følgeseddel" as F
+participant ":Station" as ST
+participant ":Medarbejder" as ME
 
-'Load Station (domain ref)
-VM -> SRepo : GetById(selectedStationID)
-activate SRepo
-SRepo --> VM : Station
-deactivate SRepo
 
-'Create thedomain object
-note right of VM
-ID generation can be handled here (GUID)
-the domain object is created in the VM layer.
-end note
-VM -> Slip ++ : new CaliberTrackingSlip(id, startDate, TrackingSlipStatus.Created)
+-> F: opretFølgeseddel(deltype,\n startDato,\n startStatus,\n bemærkning,\n medarbejderID)
+activate F
 
-'Add initial history step (performedAt = Station)
-VM -> Hist ++ : new History(historyId, completed = startDate)
-VM -> Slip : addHistory(Hist)
-deactivate Hist
 
-'Persist the new tracking slip
-VM -> TRepo : Add(Slip)
-activate TRepo
-TRepo --> VM : ok
-deactivate TRepo
+F -> ME: findMedarbejder(medarbejderID)
+activate ME
+ME --> F: medarbejder(navn, stationID )
+deactivate ME
+F -> ST: findStation(stationID)
+activate ST
+ST --> F: station(navn)      
+deactivate ST
 
-'Return to View
-VM --> View : success
-deactivate VM
 
-View -> View : clearError(); render()
+F -> F: create(deltype, startDato,\n startStatus, bemærkning,\n station, medarbejder)
+
+
+F --> F: kaliberID
+
+
+F -> F: historikListe.add("oprettet",\n medarbejder, timestamp,\n station, kaliberID, Bemærkning)
+
+
+<-- F: sporingsID + labelData
+deactivate F
+
 @enduml
