@@ -58,7 +58,7 @@ namespace dimvetral
             if (isValid)
             {
               // Login successful -> open main window with employee ID
-                MainWindow mainWindow = new MainWindow(userId);
+                TrakningSlipWindow mainWindow = new TrakningSlipWindow(userId);
                 mainWindow.Show();
                 this.Close();
             }

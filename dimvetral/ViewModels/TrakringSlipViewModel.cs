@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace dimvetral.ViewModels
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class TrakringSlipViewModel : INotifyPropertyChanged
     {
         private readonly string _connectionString;
         private readonly RepoTrackingSlip _repository;
@@ -24,7 +24,7 @@ namespace dimvetral.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public MainWindowViewModel()
+        public TrakringSlipViewModel()
         {
             IConfigurationRoot configurationBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
