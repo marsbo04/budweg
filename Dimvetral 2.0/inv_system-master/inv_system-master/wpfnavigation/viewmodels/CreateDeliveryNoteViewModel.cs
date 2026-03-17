@@ -32,4 +32,15 @@ public class CreateDeliveryNoteViewModel : BaseViewModel
             OnPropertyChanged(nameof(Name));
         }
     }
+
+    private string _remark;
+    public string Remark
+    {
+        get => _remark;
+        set
+        {
+            _remark = value;
+            OnPropertyChanged(nameof(Remark));
+        }
+    }
 }

@@ -3,18 +3,153 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:wpfnavigation.views"
+             xmlns:local="clr-namespace:wpfnavigation.views" xmlns:viewmodels="clr-namespace:wpfnavigation.viewmodels" d:DataContext="{d:DesignInstance Type=viewmodels:CreateDeliveryNoteViewModel}"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="450" d:DesignWidth="800">
+    <!-- Combine all resources into a single Resources block -->
+    <UserControl.Resources>
+        <!-- Circular Button Style -->
+        <Style x:Key="CircularButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="circle"
+                                     Fill="{TemplateBinding Background}"
+                                     Stroke="{TemplateBinding BorderBrush}"
+                                     StrokeThickness="{TemplateBinding BorderThickness}" />
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="10" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="circle" Property="Fill" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="circle" Property="Fill" Value="#B0B0B0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Circular RadioButton Style -->
+        <Style x:Key="CircularRadioButton" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid>
+                            <Ellipse x:Name="circle"
+                                     Fill="{TemplateBinding Background}"
+                                     Stroke="{TemplateBinding BorderBrush}"
+                                     StrokeThickness="{TemplateBinding BorderThickness}" />
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="10" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="circle" Property="Fill" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}" />
+                            </Trigger>
+                            <!-- Highlight green when the radio button is selected -->
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="circle" Property="Fill" Value="#4CAF50" /> 
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
-        <TextBlock HorizontalAlignment="Center" Margin="0,20,0,0" TextWrapping="Wrap" Text="firstview"
-                   VerticalAlignment="Top" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Button Command="{Binding NavigateToHomeViewCommand}" Content="gohome" HorizontalAlignment="Left"
-                Margin="60,238,0,0" VerticalAlignment="Top" />
-        <TextBox TextWrapping="Wrap" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="119,74,137,198" />
-        <Button Command="{Binding CreateDeliveryNoteCommand}" Content="Create note" HorizontalAlignment="Left"
-                Margin="199,238,0,0" VerticalAlignment="Top" />
+        <!-- Cirkulære knapper i toppen -->
+        <UniformGrid Grid.Row="0" 
+                     Rows="1" 
+                     Columns="3"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+                     Margin="0,20,0,0" Width="592">
+                     
+            <!-- Start knap (Changed to RadioButton) -->
+            <RadioButton x:Name="KaliberDel1Button" 
+                         GroupName="Kaliber"
+                         Click="KaliberDel1_Click"
+                         Style="{StaticResource CircularRadioButton}"
+                         Width="100"
+                         Height="100"
+                         Background="White"
+                         BorderBrush="Black"
+                         BorderThickness="2"
+                         Tag="#E0E0E0"
+                         Cursor="Hand"
+                         Margin="10">
+                <TextBlock Text="KaliberDel1" 
+                           FontSize="14"
+                           FontWeight="Bold"
+                           TextAlignment="Center" />
+            </RadioButton>
 
+            <!-- Help knap -->
+            <RadioButton x:Name="KaliberDel2" 
+                         GroupName="Kaliber"
+                         Click="KaliberDel2_Click"
+                         Style="{StaticResource CircularRadioButton}"                  
+                         Width="100"
+                         Height="100"
+                         Background="White"
+                         BorderBrush="Black"
+                         BorderThickness="2"
+                         Tag="#E0E0E0"
+                         Cursor="Hand"
+                         Margin="10">
+                <TextBlock Text="KaliberDel2" 
+                           FontSize="14"
+                           FontWeight="Bold"
+                           TextAlignment="Center" />
+            </RadioButton>
+
+            <!-- Exit knap -->
+            <RadioButton x:Name="KalibrDel3"
+                         GroupName="Kaliber"
+                         Click="KaliberDel3_Click"
+                         Style="{StaticResource CircularRadioButton}"                    
+                         Width="100"
+                         Height="100"
+                         Background="White"
+                         BorderBrush="Black"
+                         BorderThickness="2"
+                         Tag="#FFE0E0"
+                         Cursor="Hand"
+                         Margin="10">
+                <TextBlock Text="KaliberDel3" 
+                           FontSize="14"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           TextAlignment="Center" />
+            </RadioButton>
+        </UniformGrid>
+
+        <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,1">
+            <TextBlock Text="Bemærknig" Margin="0,0,0,1" FontWeight="SemiBold"/>
+            <TextBox x:Name="RemarkTextBox"
+                     AcceptsReturn="True" TextWrapping="Wrap" 
+                     Text="{Binding Remark, UpdateSourceTrigger=PropertyChanged}"
+                     MaxHeight="200" Width="503"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0,0">
+           
+            <Button Command="{Binding CreateDeliveryNoteCommand}" Content="Gem" Width="100" Height="30" Margin="0,10,0,0" Click="SaveButton_Click"/>
+            <Button Command="{Binding NavigateToHomeViewCommand}" Content="Annuller" Width="100" Height="30" Margin="0,10,0,0" Click="CancelButton_Click"/>
+        </StackPanel>
     </Grid>
+
 </UserControl>
