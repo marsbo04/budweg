@@ -17,7 +17,7 @@ else Medarbejder bekræfter oprettelse
     Medarbejder -> System: opretFølgeseddel( deltype, startDato, status, bemærkning, stationID)
 
     System --> Medarbejder: KaliberID
-    System --> Medarbejder: Generér og vis labelData\n(QR/Barcode)
+    System --> Medarbejder: Generér FølgeSeddel
 end
 
 @enduml
