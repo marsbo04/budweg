@@ -61,7 +61,7 @@
                                                 MinWidth="50" />
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Button Command="{Binding NavigateToSecondViewCommand}" Content="Button" HorizontalAlignment="Left" Margin="393,284,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                        <Button Command="{Binding NavigateToSecondViewCommand}" Content="Se Historik" HorizontalAlignment="Left" Margin="394,0,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.594,-4.664"/>
                     </Grid>
                 </Border>
 

@@ -7,11 +7,11 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBlock HorizontalAlignment="Center" Margin="0,24,0,0" TextWrapping="Wrap" Text="secondview"
+        <TextBlock HorizontalAlignment="Center" Margin="0,24,0,0" TextWrapping="Wrap" Text="Historik"
                    VerticalAlignment="Top" />
-        <Button Command="{Binding NavigateToHomeViewCommand2 }" Content="gohome" HorizontalAlignment="Left"
-                Margin="111,276,0,0" VerticalAlignment="Top" />
-        <DataGrid ItemsSource="{Binding Stations}" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="41,53,66,140"/>
+        <Button Command="{Binding NavigateToHomeViewCommand2 }" Content="Tilbage" HorizontalAlignment="Center"
+                Margin="0,270,0,0" VerticalAlignment="Top" />
+        <DataGrid ItemsSource="{Binding Stations}" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="81,80,81,150" />
 
     </Grid>
 </UserControl>
