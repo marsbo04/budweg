@@ -2,9 +2,9 @@
 
 namespace wpfnavigation.views;
 
-public partial class SecondView : UserControl
+public partial class StationListingView : UserControl
 {
-    public SecondView()
+    public StationListingView()
     {
         InitializeComponent();
     }

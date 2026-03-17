@@ -14,7 +14,7 @@ public class DeliveryNoteRepository
     public DeliveryNoteRepository()
     {
         _deliveryNotes = new List<DeliveryNote>();
-        
+
         IConfigurationRoot configurationBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
         _connectionString = configurationBuilder.GetConnectionString("DefaultConnection");
 
@@ -26,21 +26,22 @@ public class DeliveryNoteRepository
     {
         var builder = new SqlConnectionStringBuilder(_connectionString);
         string databaseName = builder.InitialCatalog;
-        
+
         // Temporarily point to the 'master' database to create our target database
         builder.InitialCatalog = "master";
 
         using (SqlConnection masterConnection = new SqlConnection(builder.ConnectionString))
         {
             masterConnection.Open();
-            
+
             // Check if our database exists, create it if it doesn't
             using (SqlCommand checkDbCmd = new SqlCommand($"SELECT db_id('{databaseName}')", masterConnection))
             {
                 var result = checkDbCmd.ExecuteScalar();
                 if (result == DBNull.Value || result == null)
                 {
-                    using (SqlCommand createDbCmd = new SqlCommand($"CREATE DATABASE [{databaseName}]", masterConnection))
+                    using (SqlCommand createDbCmd =
+                           new SqlCommand($"CREATE DATABASE [{databaseName}]", masterConnection))
                     {
                         createDbCmd.ExecuteNonQuery();
                     }

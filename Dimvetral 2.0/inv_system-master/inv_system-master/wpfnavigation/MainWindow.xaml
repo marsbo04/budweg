@@ -18,7 +18,7 @@
                     <views:CreateDeliveryNoteView />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vms:SecondViewModel}">
-                    <views:SecondView />
+                    <views:StationListingView />
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
