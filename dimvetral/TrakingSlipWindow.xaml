@@ -33,7 +33,8 @@
 
                         <!-- DataGrid bundet til TrackingHistory -->
                         <DataGrid Grid.Row="1"
-                                  ItemsSource="{Binding TrackingHistory}"
+                                  ItemsSource="{Binding DeliveryNotes}" 
+                                  d:ItemsSource="{d:SampleData ItemCount=6}"
                                   AutoGenerateColumns="False"
                                   IsReadOnly="True"
                                   SelectionMode="Single"
@@ -47,13 +48,16 @@
                                   CanUserSortColumns="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Kaliber ID" 
-                                                    Binding="{Binding CaliberTrackingSlipID}" 
+                                                    Binding="{Binding Id}"
                                                     Width="Auto" 
                                                     MinWidth="100" />
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                                <DataGridCheckBoxColumn Header="Status" Binding="{Binding Status, UpdateSourceTrigger=PropertyChanged}" />
+                                <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate, UpdateSourceTrigger=PropertyChanged, StringFormat=yyyy-MM-dd HH:mm:ss}"/>
                                 <DataGridTextColumn Header="Station"
                                                     Binding="{Binding StationName}"
                                                     Width="*" 
-                                                    MinWidth="120" />
+                                                    MinWidth="50" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
@@ -73,25 +77,8 @@
                     <!-- Top: ID Information -->
                     <StackPanel Grid.Row="0">
                         <!-- Medarbejder ID -->
-                        <Grid Margin="0,0,0,10">
-                            <TextBlock Text="Medarbejder ( ID )" 
-                                       VerticalAlignment="Center" 
-                                       FontWeight="SemiBold" />
-                            <Border Width="35" Height="35" 
-                                    BorderBrush="Black" 
-                                    BorderThickness="2" 
-                                    CornerRadius="17.5"
-                                    HorizontalAlignment="Right"
-                                    Background="White">
-                                <TextBlock Text="{Binding EmployeeId}" 
-                                           HorizontalAlignment="Center" 
-                                           VerticalAlignment="Center"
-                                           FontSize="10"
-                                           FontWeight="Bold"
-                                           TextTrimming="CharacterEllipsis" />
-                            </Border>
-                        </Grid>
-                        
+                        <Grid Margin="0,0,0,10"/>
+
                         <!-- Bremseskaliber ID -->
                         <Grid>
                             <TextBlock Text="Bremseskaliber ( ID )" 
@@ -161,26 +148,6 @@
                         </Button>
 
                         <!-- Log ud knap - BUNDET TIL COMMAND -->
-                        <Button Content="Log ud" 
-                                Command="{Binding LogoutCommand}"
-                                Foreground="Red"
-                                FontWeight="Bold"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                HorizontalAlignment="Center"
-                                Padding="10"
-                                Cursor="Hand">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Foreground" Value="DarkRed" />
-                                            <Setter Property="TextBlock.TextDecorations" Value="Underline" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
                     </StackPanel>
                 </Grid>
             </Grid>
