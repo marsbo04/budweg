@@ -10,7 +10,6 @@ class "KaliberFølgeseddel" <<table>>
     StartDato: DateTime2
     Status : BIT
     Navn : NVarChar[32]
-    <<FK>>Historik : INT
 }
 
 class "Station" <<table>>
@@ -21,6 +20,7 @@ class "Station" <<table>>
     SlutDato : DateTime2
     Status : BIT
     Bemærkning : NVarChar[64]
+    <<FK>>KaliberFølgeseddelId : INT
     <<FK>>Bygningsnavn : NVarChar[32]
 }
 

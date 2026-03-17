@@ -5,19 +5,17 @@ actor ": Medarbejder" as Medarbejder
 participant ": System" as System
 
 Medarbejder -> System: Opret følgeseddel
-System --> Medarbejder: Vis deltyper
+System --> Medarbejder: Viser mulige deltyper(Forhjulskaliber, Baghjulskaliber, Bremsekaliber)
 
-Medarbejder -> System: Vælg deltype
-Medarbejder -> System: Indtast startinfo\n(startDato, status, bemærkning, stationID)
-
+Medarbejder -> System: Vælg deltype(Forhjulskaliber, Baghjulskaliber, Bremsekaliber)
+Medarbejder -> System: Indtast evt. bemærkning
 alt Medarbejder vælger at annullere
     Medarbejder -> System: Annuller oprettelse    
     System --> Medarbejder: Returnér til start
-else Medarbejder bekræfter oprettelse
-    Medarbejder -> System: opretFølgeseddel( deltype, startDato, status, bemærkning, stationID)
+else Medarbejder gemmer oprettelse
 
-    System --> Medarbejder: KaliberID
-    System --> Medarbejder: Generér FølgeSeddel
+    System --> Medarbejder: KaliberID bliver genereret og returneret til aktøren
+    System --> Medarbejder: FølgeSeddel bliver Genereret og returneret til aktøren med kaliberID og evt bemærkning
 end
 
 @enduml
