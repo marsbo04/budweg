@@ -1,26 +1,80 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
+using System;
+using System.Collections.Generic;
 
 namespace wpfnavigation.Models.Repositories;
 
 public class DeliveryNoteRepository
 {
     private List<DeliveryNote> _deliveryNotes;
+    private readonly string _connectionString;
 
     public DeliveryNoteRepository()
     {
         _deliveryNotes = new List<DeliveryNote>();
+        
+        IConfigurationRoot configurationBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        _connectionString = configurationBuilder.GetConnectionString("DefaultConnection");
+
+        // Ensure database and schema exists
+        InitializeDatabase();
+    }
+
+    private void InitializeDatabase()
+    {
+        var builder = new SqlConnectionStringBuilder(_connectionString);
+        string databaseName = builder.InitialCatalog;
+        
+        // Temporarily point to the 'master' database to create our target database
+        builder.InitialCatalog = "master";
+
+        using (SqlConnection masterConnection = new SqlConnection(builder.ConnectionString))
+        {
+            masterConnection.Open();
+            
+            // Check if our database exists, create it if it doesn't
+            using (SqlCommand checkDbCmd = new SqlCommand($"SELECT db_id('{databaseName}')", masterConnection))
+            {
+                var result = checkDbCmd.ExecuteScalar();
+                if (result == DBNull.Value || result == null)
+                {
+                    using (SqlCommand createDbCmd = new SqlCommand($"CREATE DATABASE [{databaseName}]", masterConnection))
+                    {
+                        createDbCmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        // Now connect to the actual database to ensure tables exist
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            connection.Open();
+            string createTableSql = @"
+                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='DeliveryNote' and xtype='U')
+                BEGIN
+                    CREATE TABLE DeliveryNote (
+                        Id INT IDENTITY(1,1) PRIMARY KEY,
+                        StartDate DATETIME2 NOT NULL,
+                        Status BIT NOT NULL,
+                        Name NVARCHAR(255) NOT NULL
+                    )
+                END";
+
+            using (SqlCommand createTableCmd = new SqlCommand(createTableSql, connection))
+            {
+                createTableCmd.ExecuteNonQuery();
+            }
+        }
     }
 
     public void LoadDeliveryNotes()
     {
-        IConfigurationRoot configurationBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        string connectionString = configurationBuilder.GetConnectionString("DefaultConnection");
-
         _deliveryNotes.Clear();
 
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        using (SqlConnection connection = new SqlConnection(_connectionString))
         {
             connection.Open();
 
@@ -46,10 +100,7 @@ public class DeliveryNoteRepository
 
     public void AddDeliveryNote(DeliveryNote deliveryNote)
     {
-        IConfigurationRoot configurationBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        string connectionString = configurationBuilder.GetConnectionString("DefaultConnection");
-
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        using (SqlConnection connection = new SqlConnection(_connectionString))
         {
             connection.Open();
 
@@ -68,10 +119,7 @@ public class DeliveryNoteRepository
 
     public void UpdateDeliveryNote(DeliveryNote deliveryNote)
     {
-        IConfigurationRoot configurationBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        string connectionString = configurationBuilder.GetConnectionString("DefaultConnection");
-
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        using (SqlConnection connection = new SqlConnection(_connectionString))
         {
             connection.Open();
 
